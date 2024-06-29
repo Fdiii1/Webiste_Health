@@ -3,17 +3,24 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import thunk from 'redux-thunk';
 import './userManage.scss';
-import {getAllUsers} from '../../services/userService'
+import {getAllUsers ,createNewUserSerice} from '../../services/userService'
+import { bind } from 'lodash';
+import MondalUsers from './ModalUsers';
+import { Modal } from 'reactstrap';
 class UserManage extends Component {
 
     constructor(props){
         super(props);
         this.state ={
-            arrUsers: []
+            arrUsers: [],
+            isOpenModalUser: false,
         }
     }
 
    async componentDidMount() {
+       await this.getAllUsersFromReact( )
+    }
+    getAllUsersFromReact = async() =>{
         let response = await getAllUsers("ALL");
         if(response && response.errCode === 0){
             this.setState({
@@ -21,16 +28,55 @@ class UserManage extends Component {
         })
         }
     }
-
+    
+    handleAddNewUser = () =>{
+        this.setState({
+            isOpenModalUser: true,
+        })
+        
+    }
+    toggleUserModal = () =>{
+        this.setState({
+            isOpenModalUser: !this.state.isOpenModalUser,
+        })
+    }
+    createNewuser = async(data) => {
+        try{
+          let reponese= await  createNewUserSerice(data);
+          if(reponese && reponese.errCode !==0){
+            alert(reponese.errMessage)
+          }else{
+            await this.getAllUsersFromReact();
+            this.setState({
+                isOpenModalUser: false
+            })
+          }
+        }catch(e){
+            console.log(e)
+        }
+    }
 
     render() {
-        console.log('check render',this.state)
+
         let arrUsers =this.state.arrUsers;
+        console.log(arrUsers)
         return (
             <div className="user-container">
-                <div className='title text-center'>Manage user with Fruzii </div>
+            <MondalUsers  
+            isOpen ={this.state.isOpenModalUser}  
+            toggleFromParent={this.toggleUserModal}
+            createNewuser ={this.createNewuser}
+            
+            />
+            <div className='title text-center'>Manage user with Fruzii </div>
+            <div className='mx-1'>
+            <button className='btn btn-primary px-3'
+            onClick={()=>this.handleAddNewUser(bind,this)}
+            ><i className="fas fa-plus"></i>Add new user</button>
+            </div>    
             <div className='user-table mt-3 mx-1'>
             <table id="customers">
+            <tbody>
   <tr>
     <th>Email</th>
     <th>First name</th>
@@ -38,9 +84,9 @@ class UserManage extends Component {
     <th>Address</th>
     <th>Actions</th>
   </tr>
- 
+       
     { arrUsers && arrUsers.map((item,index)=>{
-        console.log('fruzii check map',item,index)
+
         return(
             <tr key={index}>
                     <td>{item.email}</td>
@@ -48,24 +94,20 @@ class UserManage extends Component {
                     <td>{item.lastName}</td>
                     <td>{item.address}</td>
                     <td>
-                        <button className='btn-edit'><i className='fas fa-pencil-alt'/>Edit</button>
-                        <button className='btn-delete'><i className='fas fa-trash'/>Delete</button>
+                        <button className='btn-edit'><i className='fas fa-pencil-alt'/></button>
+                        <button className='btn-delete'><i className='fas fa-trash'/></button>
                     </td>
 
-            </tr    >
-        )
-    })
-         
-    }
-
-
-
-
-</table>
-            </div>
-            </div>
+            </tr  >
             
-        );
+        )
+    }) }
+</tbody>
+    </table>
+             </div>
+            </div>  
+       
+    );
     }
 
 }
