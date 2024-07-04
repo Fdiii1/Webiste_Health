@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import thunk from 'redux-thunk';
+import {getAllUsers ,createNewUserSerice,deleteUserSerice,editUserService} from '../../services/userService'
 import './userManage.scss';
-import {getAllUsers ,createNewUserSerice} from '../../services/userService'
-import { bind } from 'lodash';
-import MondalUsers from './ModalUsers';
-import { Modal } from 'reactstrap';
+import ModalUsers from './ModalUsers';
+import ModalEditUser from './ModalEditUser';
+import { emitter } from '../../utils/emitter';
 class UserManage extends Component {
 
     constructor(props){
@@ -14,11 +13,13 @@ class UserManage extends Component {
         this.state ={
             arrUsers: [],
             isOpenModalUser: false,
+            isOpenModalEditUser: false,
+            userEdit: {},
         }
     }
 
    async componentDidMount() {
-       await this.getAllUsersFromReact( )
+       await this.getAllUsersFromReact()
     }
     getAllUsersFromReact = async() =>{
         let response = await getAllUsers("ALL");
@@ -40,6 +41,11 @@ class UserManage extends Component {
             isOpenModalUser: !this.state.isOpenModalUser,
         })
     }
+    toggleUserEditModal = () =>{
+        this.setState({
+            isOpenModalEditUser: !this.state.isOpenModalEditUser
+        })
+    }
     createNewuser = async(data) => {
         try{
           let reponese= await  createNewUserSerice(data);
@@ -50,7 +56,43 @@ class UserManage extends Component {
             this.setState({
                 isOpenModalUser: false
             })
+            emitter.emit( 'EVENT_CLEAR_MODAL_DATA');
           }
+        }catch(e){
+            console.log(e)
+        }
+    }
+    handleDeleteUser = async(user) =>{
+        try{
+            let res =await deleteUserSerice(user.id);
+            if(res && res.errCode ===0){
+                await this.getAllUsersFromReact()
+            }else{
+                alert(res.errMessage)
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }
+    handleEditUser = (user) => {
+
+        this.setState({
+            isOpenModalEditUser: true,
+            userEdit: user
+        })
+    }
+    doEditUser = async(user) =>{
+        console.log('check',user)
+        try{
+        let res = await editUserService(user)
+            if(res && res.errCode === 0){
+                this.setState({
+                    isOpenModalEditUser:false
+                })
+                await this.getAllUsersFromReact()
+            }else{
+                alert(res.errCode)
+            }
         }catch(e){
             console.log(e)
         }
@@ -59,19 +101,28 @@ class UserManage extends Component {
     render() {
 
         let arrUsers =this.state.arrUsers;
-        console.log(arrUsers)
+   
         return (
             <div className="user-container">
-            <MondalUsers  
+            <ModalUsers  
             isOpen ={this.state.isOpenModalUser}  
             toggleFromParent={this.toggleUserModal}
             createNewuser ={this.createNewuser}
             
             />
+            {
+            this.state.isOpenModalEditUser &&
+            <ModalEditUser
+            isOpen = {this.state.isOpenModalEditUser}
+            toggleFromParent = {this.toggleUserEditModal}
+            currentUser= {this.state.userEdit}
+            editUser= {this.doEditUser}
+            />
+            }   
             <div className='title text-center'>Manage user with Fruzii </div>
             <div className='mx-1'>
             <button className='btn btn-primary px-3'
-            onClick={()=>this.handleAddNewUser(bind,this)}
+            onClick={()=>this.handleAddNewUser()}
             ><i className="fas fa-plus"></i>Add new user</button>
             </div>    
             <div className='user-table mt-3 mx-1'>
@@ -86,7 +137,7 @@ class UserManage extends Component {
   </tr>
        
     { arrUsers && arrUsers.map((item,index)=>{
-
+        console.log('check',item,index)
         return(
             <tr key={index}>
                     <td>{item.email}</td>
@@ -94,8 +145,8 @@ class UserManage extends Component {
                     <td>{item.lastName}</td>
                     <td>{item.address}</td>
                     <td>
-                        <button className='btn-edit'><i className='fas fa-pencil-alt'/></button>
-                        <button className='btn-delete'><i className='fas fa-trash'/></button>
+                        <button className='btn-edit' onClick={()=>this.handleEditUser(item)}><i className='fas fa-pencil-alt'/></button>
+                        <button className='btn-delete' onClick={()=>this.handleDeleteUser(item)}><i className='fas fa-trash'/></button>
                     </td>
 
             </tr  >
