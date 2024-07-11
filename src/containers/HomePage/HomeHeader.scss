@@ -1,83 +1,135 @@
-.home-header-container{
-    height:  60px;
-    width: 100%;
-    padding: 0 20px;
 
-    .home-header-content{
+.home-header-container {
+    height: 65px;
+    width: 100%;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 2;
+
+    .home-header-content {
         width: 100%;
         height: 100%;
         display: flex;
 
-        .left-content{
-            width: 25%;
+
+        .left-content {
             display: flex;
+            width: 20%;
             align-items: center;
-            border: 1px solid green;
-            .header-logo{
-                background: url('../../assets/bookingcare-2020.svg') center center no-repeat;
+            .header-logo {
                 height: 100%;
                 width: 100%;
+                background-size: 50% 50%;
                 cursor: pointer;
+                transform: scale(0.5, 0.5);
+                margin-left: -45px;
+                
             }
             i {
                 font-size: 25px;
-                color: grey;
+                color: gray;
                 cursor: pointer;
             }
         }
-        .center-content{
-            width: 50%;
-            border: 1px solid orange;
+        .center-content {
+            width: 55%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .child-content{
-                .subs-title{
+
+            .child-content {
+                .subs-tittle {
                     font-weight: 400;
                     font-size: 12px;
                 }
             }
         }
-        .right-content{
+        .right-content {
             width: 25%;
-            border: 1px solid gray;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
 
+            .support {
+                padding-right: 50px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                i {
+                    font-size: 15px;
+                    margin-right: 6px;
+                }
+            }
+
+            .language-vi {
+                cursor: pointer;
+                opacity: 0.3;
+                &.active {
+                    opacity: 1;
+                    span {
+                        color: greenyellow;
+                    }
+                }
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .language-en {
+                margin: 0 10px;
+                cursor: pointer;
+                opacity: 0.3;
+                &.active {
+                    opacity: 1;
+                    span {
+                        color: blue;
+                    }
+                }
+                &:hover {
+                    opacity: 1;
+                }
+            }
         }
     }
 }
-.home-header-banner{
-    background: url('../../assets/header-backgroup.png');
-    height: 485px;
+
+.home-header-banner {
+    
+    background: url('../../assets/header-background.jpg');
+    height: 550px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     display: flex;
     flex-direction: column;
-    .content-up{
-        border: 1px solid red;
-        padding: 15px;
-        height: 50%;
-        .title1{
+     
+
+    .content-up {
+        background-image: linear-gradient(rgba(126,126,126,0.25), rgba(255,255,255, 0.1));
+        // border: 1px solid red;
+        height: 65%;
+        padding-top: 15px;
+        .title1 {
             text-align: center;
+            color: white;
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #333;
+            margin-bottom: 8px;
+            margin-top: 30px;
+        }
+    
+        .title2 {
+            text-align: center;
+            color: white;
             font-size: 30px;
             text-shadow: 1px 1px 1px #333;
             margin-bottom: 15px;
-            color: white;
         }
     
-        .title2{
-            text-align: center;
-            font-size: 30px;
-            text-shadow: 1px 1px 1px #333;
-            color: white;
-            margin-bottom: 15px;
-    
-        }
-        
-        .search{
+        .search {
             width: fit-content;
             display: flex;
             justify-content: center;
@@ -86,53 +138,66 @@
             padding: 10px;
             border-radius: 25px;
             background: #f7d800;
+            cursor: pointer;
+    
             i {
                 margin: 0 5px;
             }
-            input{
+            input {
                 height: 30px;
                 width: 360px;
                 background: transparent;
-                border:  none;
+                border: none;
                 outline: none;
             }
         }
     }
-    .content-down{
-        border: 1px solid green;
-        height: 50%;
-        .options{
+
+    .content-down {
+        // border: 1px solid greenyellow;
+        height: 35%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        background-image: linear-gradient(rgba(255,255,255, 0.1), rgba(255,255,255, 0.9), rgba(255,255,255, 1));
+        padding-bottom: 10px;
+        .options {
+            gap: 50px;
             text-align: center;
             display: flex;
-            gap: 50px;
             justify-content: center;
-            .option-child{
-                border: 1px solid red;
+            
+            
+            .options-child {
+                // border: 1px solid red;
                 width: 100px;
-
-                .icon-child{
+                .icon-child {
                     background: white;
-                    width: 40px;
+                    width: fit-content;
                     height: 40px;
+                    width: 40px;
                     padding: 10px;
                     border-radius: 50%;
                     text-align: center;
                     margin: 0 auto;
-
-                    i{
-                        color: #49bce2;
+                    i {
                         font-size: 20px;
-                    } 
+                        color: aqua;
+                    }
                 }
-                .text-child{
+                
+                .text-child {
                     font-size: 17px;
                     font-weight: 500;
                     cursor: pointer;
-                    &:hover{
-                        color: #49bce2;
+
+                    &:hover {
+                        color: aqua;
+                        
                     }
                 }
             }
+
         }
     }
 }
