@@ -1,0 +1,16 @@
+.section-speacialty{
+    height: 330px;
+    border: 1px solid red;
+    background: hsl(0, 0%, 96%);
+}
+
+.slick-prev{
+    border: 1px solid greenyellow !important;
+    position: relative !important;
+    left: 0 !important;
+}
+.slick-next{
+    border: 1px solid pink !important;
+    
+    right:  0 !important;
+}
