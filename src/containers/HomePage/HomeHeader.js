@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-
+import {LANGUAGE} from '../../utils/constant'
 import './HomeHeader.scss'
 import logo from '../../assets/bookingcare-2020.svg';
+import { changLanguageApp } from '../../store/actions/appActions';
 class HomeHeader extends Component {
-
+        changLanguage = (language) =>{
+            this.props.changLanguageAppRedux(language)
+        }
     render() {
-        console.log('this ',this.props)
+        let language = this.props.language
+        console.log('this ',language)
         return (
             <React.Fragment>
         <div className='home-header-container'>
@@ -37,8 +41,8 @@ class HomeHeader extends Component {
                     </div>
                     <div className='right-content'>
                    <div className='support'><i className="fas fa-question-circle"></i><FormattedMessage id='homeheader.support' /></div>
-                   <div className='language-vi'><span>VN</span></div>
-                   <div className='language-en'><span>EN</span></div>
+                   <div className={language === LANGUAGE.VI ? 'language-vi active' :'language-vi'}><span onClick={()=>this.changLanguage(LANGUAGE.VI)}>VN</span></div>
+                   <div className={language === LANGUAGE.EN ? 'language-en active' :'language-en'}><span onClick={()=>this.changLanguage(LANGUAGE.EN)}>EN</span></div>
 
                     </div>
                 </div>
@@ -91,7 +95,7 @@ class HomeHeader extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
-        lang: state.app.language,
+        language: state.app.language,
         
 
     };
@@ -99,6 +103,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        changLanguageAppRedux: (language) => dispatch(changLanguageApp(language))
     };
 };
 
