@@ -6,13 +6,13 @@ import {LANGUAGE} from '../../utils/constant'
 import './HomeHeader.scss'
 import logo from '../../assets/bookingcare-2020.svg';
 import { changLanguageApp } from '../../store/actions/appActions';
+import { dateFilter } from 'react-bootstrap-table2-filter';
 class HomeHeader extends Component {
         changLanguage = (language) =>{
             this.props.changLanguageAppRedux(language)
         }
     render() {
         let language = this.props.language
-        console.log('this ',language)
         return (
             <React.Fragment>
         <div className='home-header-container'>
@@ -96,6 +96,7 @@ class HomeHeader extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
         language: state.app.language,
         
 
