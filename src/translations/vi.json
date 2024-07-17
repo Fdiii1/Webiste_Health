@@ -37,6 +37,20 @@
             "manage-handbook": "Quản lí cẩm nang"
             
         }
+    },
+    "manage-user":{
+        "add": "Thêm mới người dùng",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "first-name": "Họ",
+        "last-name": "Tên",
+        "phone-number": "Số điện thoại",
+        "address": "Địa chỉ",
+        "gender": "Giới tính",
+        "position": "Chức danh",
+        "roleid": "Vai trò",
+        "save": "Lưu người dùng",
+        "image": "Ảnh đại diện"
     }
     }
   
