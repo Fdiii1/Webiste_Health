@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {LANGUAGE} from '../../utils/constant'
 import './HomeHeader.scss'
 import logo from '../../assets/bookingcare-2020.svg';
 import { changLanguageApp } from '../../store/actions/appActions';
-import { dateFilter } from 'react-bootstrap-table2-filter';
 class HomeHeader extends Component {
         changLanguage = (language) =>{
             this.props.changLanguageAppRedux(language)
